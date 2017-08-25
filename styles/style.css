@@ -2,10 +2,30 @@ body{
 	background:#003366;
 	font-family: helvetica, arial;
 	font-size: 14px;
-	
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 
-
 canvas {
+	margin: auto;
 	cursor:none;
+}
+
+.mobile {
+	display: none;
+	color: white;
+}
+
+@media all and (max-device-width: 480px) {
+	canvas {
+		display: none;
+	}
+
+	.mobile {
+		display: block;
+	}
 }
