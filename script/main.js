@@ -2,6 +2,8 @@
 
 var canvas  = document.querySelector('.canvas'),
 	context = canvas.getContext ('2d');
+	context.canvas.width  = window.innerWidth;
+  context.canvas.height = window.innerHeight;
 
 
 //MOUSE
@@ -21,14 +23,22 @@ var coords = [];
 function create_star()
 {
 	var coord = {};
-	coord.x       = 1440;
-	coord.y       = Math.random() * 900;
+	coord.x       = context.canvas.width;
+	coord.y       = Math.random() * context.canvas.height;
 	coord.width   = 10;
 	coord.speed   = {};
 	coord.speed.x = 20;
 	coord.speed.y = 0;
 	coord.style   = 'white';
 	coords.push( coord );
+}
+
+function delete_star() {
+	coords.forEach(function(el, index) {
+		if (el.x < 0) {
+			coords.splice(index, 1);
+		}
+	})
 }
 	
 function star ()
@@ -61,6 +71,14 @@ function create_tail()
 	tail.width   = 10;
 	tails.push( tail );
 
+}
+
+function remove_tail() {
+	tails.forEach(function(el, index) {
+		if (el.x < 0) {
+			tails.splice(index, 1);
+		}
+	})
 }
 
 function draw()
@@ -304,10 +322,10 @@ function text()
 	context.font = '100px Arial';
 	context.textAlign =  'center';
 	context.textBaseLine = 'top';
-	context.fillText(text, 700, 150);
+	context.fillText(text, context.canvas.width/2, 150);
 	context.lineWidth = 2;	
 	context.strokeStyle = 'black';
-	context.strokeText(text,700,150);
+	context.strokeText(text, context.canvas.width/2,150);
 }
 
 // ============== LOOP ================= //
@@ -315,15 +333,17 @@ function text()
 
 function loop() 
 {
-	window.requestAnimationFrame( loop );
+	requestAnimationFrame(loop);
 	create_tail();
 	create_star();
 	star();
 	draw();
 	nyan();
 	text();
+	remove_tail();
+	delete_star();
 }
-loop();
+requestAnimationFrame(loop);
 
 
 
